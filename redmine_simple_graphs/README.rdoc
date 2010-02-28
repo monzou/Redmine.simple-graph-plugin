@@ -1,7 +1,3 @@
-#
-# Description
-#
-
 This is a simple graph plugin for Redmine.
 
 
@@ -44,13 +40,11 @@ each graphs are described by selected query.
 
  if you get garbled, add following patch to redmine/config/enviroment.rb.
  I think Japanese Users needs to apply this patch.
-
->>>
-class String
-  def to_xs
-    ERB::Util.h(unpack('U*').pack('U*')).gsub("'", '&apos;')
-  rescue
-    unpack('C*').map {|n| n.xchr}.join
+ 
+  class String
+    def to_xs
+      ERB::Util.h(unpack('U*').pack('U*')).gsub("'", '&apos;')
+    rescue
+      unpack('C*').map {|n| n.xchr}.join
+    end
   end
-end
-<<<

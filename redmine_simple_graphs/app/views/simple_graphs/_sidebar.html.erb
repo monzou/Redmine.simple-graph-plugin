@@ -1,0 +1,11 @@
+<h3><%= l(:label_simple_graphs) %></h3>
+<%= link_to l(:label_simple_graphs_view_all), { :controller => 'simple_graphs', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
+
+<% unless sidebar_queries.empty? -%>
+<h3><%= l(:label_query_plural) %></h3>
+
+<% sidebar_queries.each do |query| -%>
+<%= link_to(h(query.name), :controller => 'simple_graphs', :action => 'index', :project_id => @project, :query_id => query) %><br />
+<% end -%>
+<%= call_hook(:view_issues_sidebar_queries_bottom) %>
+<% end -%>

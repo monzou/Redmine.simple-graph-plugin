@@ -1,0 +1,64 @@
+<% content_for :header_tags do %>
+	<%= javascript_include_tag 'context_menu' %>
+	<%= javascript_include_tag '/plugin_assets/redmine_simple_graphs/javascripts/FusionCharts.js' %>
+	<%= stylesheet_link_tag 'context_menu' %>
+	<%= stylesheet_link_tag '/plugin_assets/redmine_simple_graphs/stylesheets/simple_graph.css' %>
+<% end %>
+
+<h2><%= @query.new_record? ? l(:label_simple_graphs) : h(@query.name) %></h2>
+<% html_title(@query.new_record? ? l(:label_simple_graphs) : @query.name) %>
+
+<% form_tag({ :controller => 'simple_graphs' }, :id => 'query_form') do %>
+    <%= hidden_field_tag('project_id', @project.to_param) if @project %>
+	<div id="query_form_content">
+    <fieldset id="filters" class="collapsible">
+    	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+    	<div>
+    		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+    	</div>
+    </fieldset>
+	</div>
+    <p class="buttons">
+    <%= link_to_remote l(:button_apply), 
+                       { :url => { :set_filter => 1 },
+                         :update => "content",
+                         :with => "Form.serialize('query_form')",
+                       }, :class => 'icon icon-checked' %>
+    <%= link_to_remote l(:button_clear),
+                       { :url => { :set_filter => 1, :project_id => @project },
+                         :method => :get,
+                         :update => "content",
+                       }, :class => 'icon icon-reload' %>
+    </p>
+<% end %>
+
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+<%
+	xml = render :file => "simple_graphs/closed_ratio_graph", :locals => { :hash_data => get_closed_ratio_graph_data }
+	render_chart '/plugin_assets/redmine_simple_graphs/FusionCharts/MSColumn3DLineDY.swf','',xml, 'closed_ratio_graph', 700, 400, false, false do -%>
+<% end -%>
+<%
+	xml = render :file => "simple_graphs/pie_graph", :locals => { :caption => 'By Tracker', :hash_data => get_tracker_ratio_graph_data }
+	render_chart '/plugin_assets/redmine_simple_graphs/FusionCharts/Pie3D.swf','',xml, 'tracker_ratio_graph', 700, 250, false, false do -%>
+<% end -%>
+<%
+	xml = render :file => "simple_graphs/pie_graph", :locals => { :caption => 'By Category', :hash_data => get_category_ratio_graph_data }
+	render_chart '/plugin_assets/redmine_simple_graphs/FusionCharts/Pie3D.swf','',xml, 'category_ratio_graph', 700, 250, false, false do -%>
+<% end -%>
+<%
+	xml = render :file => "simple_graphs/bar_graph", :locals => { :caption => 'By Version', :hash_data => get_version_graph_data }
+	render_chart '/plugin_assets/redmine_simple_graphs/FusionCharts/Bar2D.swf','',xml, 'version_graph', 700, 250, false, false do -%>
+<% end -%>
+<%
+	xml = render :file => "simple_graphs/bar_graph", :locals => { :caption => 'By Assign', :hash_data => get_assign_graph_data }
+	render_chart '/plugin_assets/redmine_simple_graphs/FusionCharts/Bar2D.swf','',xml, 'assign_graph', 700, 450, false, false do -%>
+<% end -%>
+<% end %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'simple_graphs/sidebar' %>
+<% end %>
+
+<div id="context-menu" style="display: none;"></div>
+<%= javascript_tag "new ContextMenu('#{url_for(:controllfer => 'issues', :action => 'context_menu')}')" %>

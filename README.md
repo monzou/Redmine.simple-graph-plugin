@@ -1,6 +1,9 @@
 Redmine simple graph plugin
 =====
 
+![DEMO](https://assets1.github.com/img/7af8408b064fa0b6ca9c2021b9634d1084266466?repo=&url=http%3A%2F%2Ffarm3.static.flickr.com%2F2802%2F4394754667_6032e76879.jpg&path=)
+![DEMO](https://assets2.github.com/img/f2d01019a6e1ff3c4063d68a5ff6814a0e1b248f?repo=&url=http%3A%2F%2Ffarm3.static.flickr.com%2F2695%2F4395521436_1f2db589a0.jpg&path=)
+
 This is a simple graph plugin for Redmine.
 This plugin visualize project status with following graphs.
 

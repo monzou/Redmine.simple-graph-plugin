@@ -38,10 +38,10 @@ Other
 if you get garbled, add following patch to redmine/config/enviroment.rb.
 I think Japanese Users needs to apply this patch.
  
-  class String
-    def to_xs
-      ERB::Util.h(unpack('U*').pack('U*')).gsub("'", '&apos;')
-    rescue
-      unpack('C*').map {|n| n.xchr}.join
-    end
-  end
+	class String
+		def to_xs
+			ERB::Util.h(unpack('U*').pack('U*')).gsub("'", '&apos;')
+		rescue
+			unpack('C*').map {|n| n.xchr}.join
+		end
+	end
